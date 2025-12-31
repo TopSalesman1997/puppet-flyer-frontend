@@ -28,9 +28,8 @@ const plugins = [
   ...(typeof terser === 'function' ? [terser()] : []),
   copy({
     targets: [
-      // src is now inside the bundler directory; copy assets and html into dist
-      { src: 'src/assets/*', dest: 'dist/assets' },
-      { src: 'src/index.html', dest: 'dist' }
+      { src: 'assets/*', dest: 'dist/assets' },
+      { src: 'index.html', dest: 'dist' }
     ],
     copyOnce: true
   })
