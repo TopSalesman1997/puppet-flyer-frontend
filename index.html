@@ -200,10 +200,25 @@
     padding: 8px 10px;
   }
 
-  /* Keep the rows horizontal (default) unless the screen is extremely narrow */
+  /* Keep the rows horizontal with equal-sized inputs and buttons */
   #auth-panel .auth-row {
-    flex-direction: row; 
-    justify-content: space-between;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  #auth-panel .auth-row input[type="text"],
+  #auth-panel .auth-row input[type="password"] {
+    flex: 1;            /* Both inputs take up all available space equally */
+    width: 0;           /* Allows flex-grow to work correctly in all browsers */
+    min-width: 140px;   /* Prevents them from getting too tiny */
+  }
+
+  #auth-panel .auth-row button {
+    flex: 0 0 120px;    /* Both buttons are locked to exactly 120px width */
+    text-align: center;
+    padding: 6px 0;     /* Vertical padding only, width is fixed */
   }
 }
 
@@ -499,36 +514,36 @@
   cursor: pointer;
 }
 
-/* Mobile fullscreen mode – optimized for landscape */
+/* Mobile / tablet fullscreen behaviour */
 @media (max-width: 900px) {
   body.fullscreen-game {
     overflow: hidden;
     background: #000;
   }
 
+  /* Hide non-game UI while in fullscreen */
+  body.fullscreen-game #auth-panel,
   body.fullscreen-game .leaderboards-container,
-  body.fullscreen-game .instructions,
-  body.fullscreen-game #auth-panel {
+  body.fullscreen-game .instructions {
     display: none;
   }
 
-  /* Portrait: don’t fight the layout too much, user should rotate */
+  /* Portrait: keep layout mostly normal; fullscreen is less critical here */
   @media (orientation: portrait) {
     body.fullscreen-game .game-container {
-      /* You can keep it mostly as-is, or slightly reduced padding */
       padding: 8px;
     }
   }
 
-  /* LANDSCAPE: real “game only” fullscreen */
+  /* LANDSCAPE: game-only fullscreen with visible padding frame */
   @media (orientation: landscape) {
     body.fullscreen-game .game-container {
       position: fixed !important;
       inset: 0;
       margin: 0;
       padding: 0;
-      border-radius: 0;
       max-width: 100vw;
+      border-radius: 0;
       z-index: 9999;
 
       display: flex;
@@ -537,14 +552,24 @@
       background: #000;
     }
 
-body.fullscreen-game #gameCanvas {
-      /* Leave a visible border so player sees full game area */
+    /* Hide title + side logos so they don't push the canvas */
+    body.fullscreen-game .game-title {
+      display: none !important;
+    }
+
+    /* If your title/logo wrappers have extra elements, hide them too */
+    body.fullscreen-game .game-title + * {
+      /* optional, only if something still shows beside the canvas */
+    }
+
+    body.fullscreen-game #gameCanvas {
+      /* Visible frame so you see full play area */
       max-height: calc(100vh - 40px);
       max-width: calc(100vw - 40px);
       height: 100%;
       width: auto;
       border-radius: 0;
-      box-shadow: 0 0 0 4px #3c352b; /* subtle frame color from your game */
+      box-shadow: 0 0 0 4px #3c352b;
       background: #000;
     }
   }
