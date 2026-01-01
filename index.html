@@ -200,10 +200,25 @@
     padding: 8px 10px;
   }
 
-  /* Keep the rows horizontal (default) unless the screen is extremely narrow */
+  /* Keep the rows horizontal with equal-sized inputs and buttons */
   #auth-panel .auth-row {
-    flex-direction: row; 
-    justify-content: space-between;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  #auth-panel .auth-row input[type="text"],
+  #auth-panel .auth-row input[type="password"] {
+    flex: 1;            /* Both inputs take up all available space equally */
+    width: 0;           /* Allows flex-grow to work correctly in all browsers */
+    min-width: 140px;   /* Prevents them from getting too tiny */
+  }
+
+  #auth-panel .auth-row button {
+    flex: 0 0 120px;    /* Both buttons are locked to exactly 120px width */
+    text-align: center;
+    padding: 6px 0;     /* Vertical padding only, width is fixed */
   }
 }
 
