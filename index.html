@@ -505,24 +505,15 @@
   top: 10px;
   right: 10px;
   z-index: 50;
-  padding: 4px 8px;
+  padding: 6px 10px;    /* slightly more padding for two lines */
   font-size: 11px;
+  line-height: 1.2;     /* tighter line spacing for the break */
   border-radius: 4px;
   border: none;
   background: rgba(0,0,0,0.6);
   color: #fff;
   cursor: pointer;
-}
-
-/* Small note under the fullscreen button, positioned over canvas area */
-.fullscreen-note {
-  position: absolute;
-  top: 52px;           /* just below the fullscreen button */
-  right: 20px;         /* aligned to the right like the button */
-  font-size: 10px;
-  color: #ccc;
-  text-align: right;
-  pointer-events: none;
+  text-align: center;
 }
 
 /* Rotate hint overlay inside the game canvas area */
@@ -600,12 +591,6 @@
       box-shadow: 0 0 0 4px #3c352b;
       background: #000;
     }
-
-    /* Adjust fullscreen note position in landscape */
-    body.fullscreen-game .fullscreen-note {
-      top: 12px;
-      right: 12px;
-    }
   } /* close landscape media query */
 } /* close max-width: 900px media query */
 </style>
@@ -650,9 +635,10 @@
     <img src="assets/spamton.png" alt="Puppet Flyer logo right" class="title-logo">
   </h1>
 
-  <!-- Fullscreen toggle button (top-right) -->
-  <button id="fullscreen-toggle" aria-label="Toggle fullscreen">⛶ Fullscreen</button>
-  <div class="fullscreen-note">for mobile gameplay</div>
+<!-- Fullscreen toggle button (top-right) -->
+<button id="fullscreen-toggle" aria-label="Toggle fullscreen">
+  Fullscreen<br><span style="font-size: 9px; opacity: 0.8;">(mobile)</span>
+</button>
 
   <canvas id="gameCanvas" width="800" height="400"></canvas>
 
@@ -832,7 +818,14 @@ function updateRotateOverlay() {
 if (fullscreenBtn) {
   fullscreenBtn.addEventListener('click', () => {
     const isFs = document.body.classList.toggle('fullscreen-game');
-    fullscreenBtn.textContent = isFs ? '⤢ Exit Fullscreen' : '⛶ Fullscreen';
+    
+    // Use innerHTML to preserve the line break and small text
+    if (isFs) {
+      fullscreenBtn.innerHTML = 'Exit Fullscreen<br><span style="font-size: 9px; opacity: 0.8;">(mobile)</span>';
+    } else {
+      fullscreenBtn.innerHTML = 'Fullscreen<br><span style="font-size: 9px; opacity: 0.8;">(mobile)</span>';
+    }
+    
     updateRotateOverlay();
   });
 }
