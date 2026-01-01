@@ -573,32 +573,30 @@
       background: #000;
     }
 
-/* Rotate prompt overlay (hidden by default) */
+/* Rotate prompt – subtle transparent module */
 .rotate-prompt {
-  display: none;
+  display: none;               /* hidden by default */
   position: fixed;
-  inset: 0;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 10000;
-  background: rgba(0, 0, 0, 0.85);
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 18px;
+
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);  /* transparent dark pill */
+  color: #f5f5f5;
+  font-size: 12px;
+  font-family: inherit;
   text-align: center;
-  pointer-events: none; /* Allow taps to pass through */
+  pointer-events: none;        /* taps pass through */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
 
-.rotate-prompt-content {
-  padding: 20px;
-  border: 2px solid #4a9eff;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.9);
-}
-
-/* Show the rotate prompt ONLY in fullscreen + portrait */
+/* Show the rotate prompt ONLY in fullscreen + portrait on small screens */
 @media (max-width: 900px) and (orientation: portrait) {
   body.fullscreen-game .rotate-prompt {
-    display: flex;
+    display: block;
   }
 }
 </style>
@@ -648,11 +646,9 @@
 
 <!-- Rotate prompt overlay (only shows in fullscreen + portrait) -->
 <div id="rotate-prompt" class="rotate-prompt">
-  <div class="rotate-prompt-content">
-    🔄<br>
-    Rotate your device<br>
-    for the best experience
-  </div>
+  <span class="rotate-text">
+    For best experience, rotate device to landscape.
+  </span>
 </div>
 
   <canvas id="gameCanvas" width="800" height="400"></canvas>
