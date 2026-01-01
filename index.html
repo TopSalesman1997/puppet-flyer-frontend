@@ -573,28 +573,39 @@
       background: #000;
     }
 
-/* Small note under the fullscreen button */
+/* Small note under the fullscreen button, positioned over canvas area */
 .fullscreen-note {
+  position: absolute;
+  top: 42px;               /* just below the fullscreen button */
+  right: 12px;
   font-size: 10px;
   color: #ccc;
-  margin-top: 4px;
   text-align: right;
+  pointer-events: none;    /* don't intercept clicks */
 }
 
-/* Rotate prompt – pixel-style transparent overlay */
+/* In landscape fullscreen, pull the note over the game so it doesn't take layout space */
+@media (max-width: 900px) and (orientation: landscape) {
+  body.fullscreen-game .fullscreen-note {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+/* Rotate prompt – pixel-style transparent overlay (hidden by default) */
 .rotate-prompt {
-  display: none;                 /* hidden by default */
+  display: none;                 /* IMPORTANT: hidden until fullscreen + portrait */
   position: fixed;
   inset: 0;
   z-index: 10000;
-  background: rgba(0, 0, 0, 0.45); /* see-through dark veil */
+  background: rgba(0, 0, 0, 0.45); /* see-through veil */
   align-items: center;
   justify-content: center;
   pointer-events: none;          /* clicks pass through */
 }
 
 .rotate-box {
-  pointer-events: auto;          /* if you ever add a close button */
+  pointer-events: auto;
   padding: 14px 18px;
   border-radius: 6px;
   background: rgba(10, 10, 10, 0.95);
@@ -669,9 +680,9 @@
   <img src="assets/spamton.png" alt="Puppet Flyer logo right" class="title-logo">
 </h1>
 
-<!-- Fullscreen toggle button (floats over the game area) -->
+<!-- Fullscreen toggle button (top-right) -->
 <button id="fullscreen-toggle" aria-label="Toggle fullscreen">⛶ Fullscreen</button>
-<div class="fullscreen-note">(for mobile gameplay)</div>
+<div class="fullscreen-note">for mobile gameplay</div>
 
 <!-- Rotate prompt overlay: only visible in fullscreen + portrait on mobile -->
 <div id="rotate-prompt" class="rotate-prompt">
