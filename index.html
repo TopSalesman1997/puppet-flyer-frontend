@@ -590,58 +590,28 @@
     top: 12px;
     right: 12px;
   }
-}
 
-/* Rotate prompt – pixel-style transparent overlay (hidden by default) */
-.rotate-prompt {
-  display: none !important;   /* force hidden by default */
+/* Rotate hint overlay inside the game canvas area */
+.rotate-canvas-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.75);
-  padding: 0;
-  pointer-events: none;
-}
-
-.rotate-box {
-  pointer-events: auto;
+  z-index: 500;                 /* above canvas, below fullscreen button/header */
   padding: 14px 18px;
   border-radius: 6px;
   background: rgba(10, 10, 10, 0.95);
   border: 3px solid #3cff7a;
   box-shadow: 0 0 0 2px #1c221f, 0 0 12px rgba(0, 0, 0, 0.8);
-  text-align: center;
-  max-width: 260px;
-}
-
-.rotate-title {
   font-family: "Courier New", monospace;
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 1px;
-  color: #3cff7a;
-  margin-bottom: 6px;
   text-align: center;
-}
-
-.rotate-body {
-  font-family: "Courier New", monospace;
+  color: #e6e6e6;
   font-size: 10px;
   letter-spacing: 0.5px;
-  color: #e6e6e6;
   line-height: 1.4;
-  text-align: center;
+  display: none;                /* hidden by default */
+  pointer-events: none;
 }
-
-/* Only show the rotate prompt in fullscreen + portrait on small screens */
-@media (max-width: 768px) and (orientation: portrait) {
-  body.fullscreen-game .game-container .rotate-prompt {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-  }
 }
 </style>
 </head>
@@ -689,17 +659,6 @@
   <button id="fullscreen-toggle" aria-label="Toggle fullscreen">⛶ Fullscreen</button>
   <div class="fullscreen-note">for mobile gameplay</div>
 
-  <!-- Rotate prompt overlay: only visible in fullscreen + portrait on mobile -->
-  <div id="rotate-prompt" class="rotate-prompt">
-    <div class="rotate-box">
-      <div class="rotate-title">ROTATE DEVICE</div>
-      <div class="rotate-body">
-        Rotate device to landscape<br>
-        for best experience.
-      </div>
-    </div>
-  </div>
-
   <canvas id="gameCanvas" width="800" height="400"></canvas>
 
   <!-- Countdown overlay (minimal, sits above canvas) -->
@@ -707,12 +666,13 @@
     <div id="countdownNumber" class="countdown-number" role="status" aria-live="polite">3</div>
   </div>
 
-  <!-- UI overlay that will contain Start / Game Over / Play Again inside the black game window -->
+ <!-- UI overlay that will contain Start / Game Over / Play Again inside the black game window -->
   <div id="uiOverlay" class="ui-overlay" aria-hidden="true"></div>
 
-  <div id="controls" class="controls">
-    <div class="loading">Loading game assets...</div>
-  </div>
+  <!-- Rotate hint overlay rendered inside the game area -->
+  <div id="rotateCanvasOverlay" class="rotate-canvas-overlay" aria-hidden="true"></div>
+
+  <div id="controls" class="controls"><div class="loading">Loading game assets...</div></div>
 
   <!-- Instruction text outside the game environment -->
   <div style="text-align:center;">
@@ -843,13 +803,48 @@ const uiOverlay = document.getElementById('uiOverlay');
 const countdownOverlay = document.getElementById('countdownOverlay');
 
 // Mobile fullscreen toggle
-  const fullscreenBtn = document.getElementById('fullscreen-toggle');
-  if (fullscreenBtn) {
-    fullscreenBtn.addEventListener('click', () => {
-      const isFs = document.body.classList.toggle('fullscreen-game');
-      fullscreenBtn.textContent = isFs ? '⤢ Exit Fullscreen' : '⛶ Fullscreen';
-    });
+const fullscreenBtn = document.getElementById('fullscreen-toggle');
+const rotateCanvasOverlay = document.getElementById('rotateCanvasOverlay');
+
+function isMobilePortrait() {
+  return window.innerWidth <= 768 && window.innerHeight > window.innerWidth;
+}
+
+function updateRotateOverlay() {
+  const inFullscreen = document.body.classList.contains('fullscreen-game');
+  if (inFullscreen && isMobilePortrait()) {
+    if (rotateCanvasOverlay) {
+      rotateCanvasOverlay.style.display = 'block';
+      rotateCanvasOverlay.innerHTML = `
+        <div style="color:#3cff7a; text-transform:uppercase; margin-bottom:6px; font-size:11px;">
+          ROTATE DEVICE
+        </div>
+        <div>
+          Rotate your phone to landscape<br>
+          for the best experience.
+        </div>
+      `;
+      rotateCanvasOverlay.setAttribute('aria-hidden', 'false');
+    }
+  } else {
+    if (rotateCanvasOverlay) {
+      rotateCanvasOverlay.style.display = 'none';
+      rotateCanvasOverlay.setAttribute('aria-hidden', 'true');
+    }
   }
+}
+
+if (fullscreenBtn) {
+  fullscreenBtn.addEventListener('click', () => {
+    const isFs = document.body.classList.toggle('fullscreen-game');
+    fullscreenBtn.textContent = isFs ? '⤢ Exit Fullscreen' : '⛶ Fullscreen';
+    updateRotateOverlay();
+  });
+}
+
+// Keep overlay in sync when user rotates or resizes
+window.addEventListener('resize', updateRotateOverlay);
+window.addEventListener('orientationchange', updateRotateOverlay);
 
 // Image variables used by the rest of the app
 let characterImage, robotBoxImage, popUpAdImage, spamtonImage, asteriskImage;
