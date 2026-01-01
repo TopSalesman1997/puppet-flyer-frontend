@@ -576,12 +576,12 @@
 /* Small note under the fullscreen button, positioned over canvas area */
 .fullscreen-note {
   position: absolute;
-  top: 42px;               /* just below the fullscreen button */
+  top: 42px;
   right: 12px;
   font-size: 10px;
   color: #ccc;
   text-align: right;
-  pointer-events: none;    /* don't intercept clicks */
+  pointer-events: none;
 }
 
 /* In landscape fullscreen, pull the note over the game so it doesn't take layout space */
@@ -594,14 +594,15 @@
 
 /* Rotate prompt – pixel-style transparent overlay (hidden by default) */
 .rotate-prompt {
-  display: none;                 /* IMPORTANT: hidden until fullscreen + portrait */
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: rgba(0, 0, 0, 0.45); /* see-through veil */
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;          /* clicks pass through */
+  display: none !important;   /* force hidden by default */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 0;
+  pointer-events: none;
 }
 
 .rotate-box {
@@ -622,6 +623,7 @@
   letter-spacing: 1px;
   color: #3cff7a;
   margin-bottom: 6px;
+  text-align: center;
 }
 
 .rotate-body {
@@ -630,12 +632,15 @@
   letter-spacing: 0.5px;
   color: #e6e6e6;
   line-height: 1.4;
+  text-align: center;
 }
 
-/* Show the rotate prompt ONLY in fullscreen + portrait on small screens */
+/* Only show the rotate prompt in fullscreen + portrait on small screens */
 @media (max-width: 768px) and (orientation: portrait) {
-  body.fullscreen-game .rotate-prompt {
-    display: flex;
+  body.fullscreen-game .game-container .rotate-prompt {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>
@@ -697,46 +702,47 @@
 
   <canvas id="gameCanvas" width="800" height="400"></canvas>
 
-    <!-- Countdown overlay (minimal, sits above canvas) -->
-    <div class="countdown-overlay" id="countdownOverlay" aria-hidden="true">
-      <div id="countdownNumber" class="countdown-number" role="status" aria-live="polite">3</div>
-    </div>
-
-    <!-- UI overlay that will contain Start / Game Over / Play Again inside the black game window -->
-    <div id="uiOverlay" class="ui-overlay" aria-hidden="true"></div>
-
-    <div id="controls" class="controls"><div class="loading">Loading game assets...</div></div>
-
-    <!-- Instruction text outside the game environment -->
-    <div style="text-align:center;">
-      <div class="instructions">TO MOVE: Spacebar (Desktop) / Tap (Mobile)</div>
-    </div>
-
-    <!-- Side-by-side Leaderboards Container -->
-    <div class="leaderboards-container">
-      <!-- Global Leaderboard Section -->
-      <div id="leaderboard-section" class="leaderboard-section" aria-label="Game Leaderboards" role="region">
-        <h2 style="text-align: center; margin-bottom: 12px; color: #1976d2;">Global Leaderboards</h2>
-        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px;">
-          <button id="btn-weekly" class="leaderboard-btn" onclick="loadLeaderboard('weekly')" style="margin-right: 8px; padding: 6px 12px; cursor: pointer; border: 1px solid #1976d2; background: white; color: #1976d2; border-radius: 4px; font-weight: 700; user-select: none;">Weekly</button>
-          <button id="btn-monthly" class="leaderboard-btn" onclick="loadLeaderboard('monthly')" style="margin-right: 8px; padding: 6px 12px; cursor: pointer; border: 1px solid #1976d2; background: white; color: #1976d2; border-radius: 4px; font-weight: 700; user-select: none;">Monthly</button>
-          <button id="btn-alltime" class="leaderboard-btn" onclick="loadLeaderboard('alltime')" style="padding: 6px 12px; cursor: pointer; border: 1px solid #1976d2; background: white; color: #1976d2; border-radius: 4px; font-weight: 700; user-select: none;">All-Time</button>
-        </div>
-        <ul id="leaderboard-list" aria-live="polite" aria-relevant="additions" style="list-style: none; padding-left: 0; margin-top: 10px; max-height: 340px; overflow-y: visible;">
-        </ul>
-      </div>
-
-      <!-- Player Stats Section -->
-      <div id="player-stats-section" class="stats-section" aria-label="Player Statistics" role="region">
-        <h2 id="user-stats-title" style="text-align: center; margin-bottom: 12px; color: #1976d2;">Player Stats</h2>
-        <div id="user-stats-status" style="text-align: center; color: #888; font-size: 13px; margin-bottom: 8px;">Sign in to see your stats.</div>
-        <ul id="user-stats-list" style="list-style: none; padding-left: 0; margin-top: 10px; max-height: 340px; overflow-y: visible;">
-        </ul>
-        <div id="user-total-score" style="text-align: center; margin-top: 12px; font-weight: bold; color: #1976d2; font-size: 14px;">Total Score: 0</div>
-      </div>
-    </div>
-
+  <!-- Countdown overlay (minimal, sits above canvas) -->
+  <div class="countdown-overlay" id="countdownOverlay" aria-hidden="true">
+    <div id="countdownNumber" class="countdown-number" role="status" aria-live="polite">3</div>
   </div>
+
+  <!-- UI overlay that will contain Start / Game Over / Play Again inside the black game window -->
+  <div id="uiOverlay" class="ui-overlay" aria-hidden="true"></div>
+
+  <div id="controls" class="controls">
+    <div class="loading">Loading game assets...</div>
+  </div>
+
+  <!-- Instruction text outside the game environment -->
+  <div style="text-align:center;">
+    <div class="instructions">TO MOVE: Spacebar (Desktop) / Tap (Mobile)</div>
+  </div>
+
+  <!-- Side-by-side Leaderboards Container -->
+  <div class="leaderboards-container">
+    <!-- Global Leaderboard Section -->
+    <div id="leaderboard-section" class="leaderboard-section" aria-label="Game Leaderboards" role="region">
+      <h2 style="text-align: center; margin-bottom: 12px; color: #1976d2;">Global Leaderboards</h2>
+      <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px;">
+        <button id="btn-weekly" class="leaderboard-btn" onclick="loadLeaderboard('weekly')" style="margin-right: 8px; padding: 6px 12px; cursor: pointer; border: 1px solid #1976d2; background: white; color: #1976d2; border-radius: 4px; font-weight: 700; user-select: none;">Weekly</button>
+        <button id="btn-monthly" class="leaderboard-btn" onclick="loadLeaderboard('monthly')" style="margin-right: 8px; padding: 6px 12px; cursor: pointer; border: 1px solid #1976d2; background: white; color: #1976d2; border-radius: 4px; font-weight: 700; user-select: none;">Monthly</button>
+        <button id="btn-alltime" class="leaderboard-btn" onclick="loadLeaderboard('alltime')" style="padding: 6px 12px; cursor: pointer; border: 1px solid #1976d2; background: white; color: #1976d2; border-radius: 4px; font-weight: 700; user-select: none;">All-Time</button>
+      </div>
+      <ul id="leaderboard-list" aria-live="polite" aria-relevant="additions" style="list-style: none; padding-left: 0; margin-top: 10px; max-height: 340px; overflow-y: visible;">
+      </ul>
+    </div>
+
+    <!-- Player Stats Section -->
+    <div id="player-stats-section" class="stats-section" aria-label="Player Statistics" role="region">
+      <h2 id="user-stats-title" style="text-align: center; margin-bottom: 12px; color: #1976d2;">Player Stats</h2>
+      <div id="user-stats-status" style="text-align: center; color: #888; font-size: 13px; margin-bottom: 8px;">Sign in to see your stats.</div>
+      <ul id="user-stats-list" style="list-style: none; padding-left: 0; margin-top: 10px; max-height: 340px; overflow-y: visible;">
+      </ul>
+      <div id="user-total-score" style="text-align: center; margin-top: 12px; font-weight: bold; color: #1976d2; font-size: 14px;">Total Score: 0</div>
+    </div>
+  </div>
+</div> <!-- end .game-container -->
 
   <!-- ==== Signup Modal ==== -->
   <div id="signup-modal" class="signup-modal" aria-hidden="true">
