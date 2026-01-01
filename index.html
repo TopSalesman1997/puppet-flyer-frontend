@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=yes"/>
 <title>Puppet Flyer</title>
 
 <!-- Pixelated font (Press Start 2P) -->
@@ -572,6 +572,33 @@
       box-shadow: 0 0 0 4px #3c352b;
       background: #000;
     }
+
+/* Rotate prompt overlay (hidden by default) */
+.rotate-prompt {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.85);
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  pointer-events: none; /* Allow taps to pass through */
+}
+
+.rotate-prompt-content {
+  padding: 20px;
+  border: 2px solid #4a9eff;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* Show the rotate prompt ONLY in fullscreen + portrait */
+@media (max-width: 900px) and (orientation: portrait) {
+  body.fullscreen-game .rotate-prompt {
+    display: flex;
   }
 }
 </style>
@@ -618,6 +645,15 @@
 
   <!-- Fullscreen toggle button (floats over the game area) -->
   <button id="fullscreen-toggle" aria-label="Toggle fullscreen">⛶ Fullscreen</button>
+
+<!-- Rotate prompt overlay (only shows in fullscreen + portrait) -->
+<div id="rotate-prompt" class="rotate-prompt">
+  <div class="rotate-prompt-content">
+    🔄<br>
+    Rotate your device<br>
+    for the best experience
+  </div>
+</div>
 
   <canvas id="gameCanvas" width="800" height="400"></canvas>
 
