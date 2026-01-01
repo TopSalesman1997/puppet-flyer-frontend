@@ -81,7 +81,7 @@
     height:48px;
   }
 
-  #gameCanvas{border:4px solid #333;border-radius:5px;display:block;margin:0 auto;image-rendering:pixelated;max-width:100%;height:auto;touch-action:none;cursor:pointer; background: #000; }
+  #gameCanvas{border:4px solid #333;border-radius:5px;display:block;margin:0 auto;image-rendering:pixelated;max-width:100%;height:auto;touch-action:manipulation;cursor:pointer; background: #000; }
 
   .controls{text-align:center;margin-top:20px}
 
@@ -524,7 +524,8 @@
   transform: translate(-50%, -50%);
   z-index: 500;
 
-  padding: 10px 8px;     /* smaller padding */
+  padding: 8px 18px;     /* vertical, horizontal */
+min-width: 280;
   max-width: 360px;       /* narrower box */
   border-radius: 4px;
   background: rgba(10, 10, 10, 0.95);
@@ -805,7 +806,7 @@ function updateRotateOverlay() {
         </div>
         <div>
           Rotate device to landscape<br>
-          for the best experience.
+          for the best experience
         </div>
       `;
       rotateCanvasOverlay.setAttribute('aria-hidden', 'false');
