@@ -519,21 +519,24 @@
 /* Rotate hint overlay inside the game canvas area */
 .rotate-canvas-overlay {
   position: absolute;
-  top: 50%;
+  top: 58%;               /* lower than center to cover START GAME */
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 500;
-  padding: 14px 18px;
-  border-radius: 6px;
+
+  padding: 10px 14px;     /* smaller padding */
+  max-width: 220px;       /* narrower box */
+  border-radius: 4px;
   background: rgba(10, 10, 10, 0.95);
-  border: 3px solid #3cff7a;
-  box-shadow: 0 0 0 2px #1c221f, 0 0 12px rgba(0, 0, 0, 0.8);
+  border: 2px solid #3cff7a;      /* slightly thinner border */
+  box-shadow: 0 0 0 2px #1c221f, 0 0 10px rgba(0, 0, 0, 0.8);
+
   font-family: "Courier New", monospace;
   text-align: center;
   color: #e6e6e6;
-  font-size: 10px;
-  letter-spacing: 0.5px;
-  line-height: 1.4;
+  font-size: 9px;         /* smaller text */
+  letter-spacing: 0.4px;
+  line-height: 1.35;
   display: none;
   pointer-events: none;
 }
