@@ -514,6 +514,39 @@
   cursor: pointer;
 }
 
+/* Small note under the fullscreen button, positioned over canvas area */
+.fullscreen-note {
+  position: absolute;
+  top: 52px;           /* just below the fullscreen button */
+  right: 20px;         /* aligned to the right like the button */
+  font-size: 10px;
+  color: #ccc;
+  text-align: right;
+  pointer-events: none;
+}
+
+/* Rotate hint overlay inside the game canvas area */
+.rotate-canvas-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 500;
+  padding: 14px 18px;
+  border-radius: 6px;
+  background: rgba(10, 10, 10, 0.95);
+  border: 3px solid #3cff7a;
+  box-shadow: 0 0 0 2px #1c221f, 0 0 12px rgba(0, 0, 0, 0.8);
+  font-family: "Courier New", monospace;
+  text-align: center;
+  color: #e6e6e6;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  display: none;
+  pointer-events: none;
+}
+
 /* Mobile / tablet fullscreen behaviour */
 @media (max-width: 900px) {
   body.fullscreen-game {
@@ -557,11 +590,6 @@
       display: none !important;
     }
 
-    /* If your title/logo wrappers have extra elements, hide them too */
-    body.fullscreen-game .game-title + * {
-      /* optional, only if something still shows beside the canvas */
-    }
-
     body.fullscreen-game #gameCanvas {
       /* Visible frame so you see full play area */
       max-height: calc(100vh - 40px);
@@ -573,46 +601,13 @@
       background: #000;
     }
 
-/* Small note under the fullscreen button, positioned over canvas area */
-.fullscreen-note {
-  position: absolute;
-  top: 42px;
-  right: 12px;
-  font-size: 10px;
-  color: #ccc;
-  text-align: right;
-  pointer-events: none;
-}
-
-/* In landscape fullscreen, pull the note over the game so it doesn't take layout space */
-@media (max-width: 900px) and (orientation: landscape) {
-  body.fullscreen-game .fullscreen-note {
-    top: 12px;
-    right: 12px;
-  }
-
-/* Rotate hint overlay inside the game canvas area */
-.rotate-canvas-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 500;                 /* above canvas, below fullscreen button/header */
-  padding: 14px 18px;
-  border-radius: 6px;
-  background: rgba(10, 10, 10, 0.95);
-  border: 3px solid #3cff7a;
-  box-shadow: 0 0 0 2px #1c221f, 0 0 12px rgba(0, 0, 0, 0.8);
-  font-family: "Courier New", monospace;
-  text-align: center;
-  color: #e6e6e6;
-  font-size: 10px;
-  letter-spacing: 0.5px;
-  line-height: 1.4;
-  display: none;                /* hidden by default */
-  pointer-events: none;
-}
-}
+    /* Adjust fullscreen note position in landscape */
+    body.fullscreen-game .fullscreen-note {
+      top: 12px;
+      right: 12px;
+    }
+  } /* close landscape media query */
+} /* close max-width: 900px media query */
 </style>
 </head>
 <body>
