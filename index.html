@@ -200,26 +200,27 @@
     padding: 8px 10px;
   }
 
-  /* Keep the rows horizontal with equal-sized inputs and buttons */
-  #auth-panel .auth-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 8px;
-  }
+ /* Keep rows flexible on small screens */
+#auth-panel .auth-row {
+  display: flex;
+  flex-wrap: wrap;        /* allow wrap if there isn't enough horizontal space */
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
 
-  #auth-panel .auth-row input[type="text"],
-  #auth-panel .auth-row input[type="password"] {
-    flex: 1;            /* Both inputs take up all available space equally */
-    width: 0;           /* Allows flex-grow to work correctly in all browsers */
-    min-width: 140px;   /* Prevents them from getting too tiny */
-  }
+#auth-panel .auth-row input[type="text"],
+#auth-panel .auth-row input[type="password"] {
+  flex: 1 1 120px;       /* prefers 120px, but can shrink or wrap */
+  width: 0;              /* flexbox width calculation */
+  min-width: 0;          /* critical: allow smaller than intrinsic size */
+}
 
-  #auth-panel .auth-row button {
-    flex: 0 0 120px;    /* Both buttons are locked to exactly 120px width */
-    text-align: center;
-    padding: 6px 0;     /* Vertical padding only, width is fixed */
-  }
+#auth-panel .auth-row button {
+  flex: 0 0 110px;       /* slightly narrower button to help fit */
+  text-align: center;
+  padding: 6px 0;
+}
 }
 
   /* Leaderboard button active state */
@@ -276,19 +277,21 @@
     }
   }
 
-  /* ==== Horizontal, slimmer auth panel on blue ==== */
-  #auth-panel {
-    min-width:380px;           /* keep current overall width */
-    padding:8px 14px;          /* reduce vertical padding (less head space) */
-    background:#ffff;
-    border-radius:10px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.18);
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    font-size: 13px;
-  }
+ /* ==== Horizontal, slimmer auth panel on blue ==== */
+#auth-panel {
+  width: 100%;
+  max-width: 420px;          /* cap width on larger screens */
+  /* remove min-width:380px; */
+  padding:8px 14px;
+  background:#ffff;
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.18);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
 
   /* Each row: input field + button side by side */
   .auth-row {
@@ -555,54 +558,51 @@ min-width: 240px;
   body.fullscreen-game .instructions {
     display: none;
   }
+}
 
-  /* Portrait: keep layout mostly normal; fullscreen is less critical here */
-  @media (orientation: portrait) {
-    body.fullscreen-game .game-container {
-      padding: 8px;
-    }
+/* Portrait tweaks while in fullscreen, any width constraint you like */
+@media (max-width: 900px) and (orientation: portrait) {
+  body.fullscreen-game .game-container {
+    padding: 8px;
+  }
+}
+
+/* Landscape fullscreen layout */
+@media (max-width: 900px) and (orientation: landscape) {
+  body.fullscreen-game .game-container {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
   }
 
-  /* LANDSCAPE: game-only fullscreen with visible padding frame */
-  @media (orientation: landscape) {
-    body.fullscreen-game .game-container {
-      /* Use absolute instead of fixed to avoid iOS viewport bugs */
-      position: absolute !important;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      z-index: 100; /* Lower z-index, just enough to be over other UI */
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-    }
-
-    /* Ensure the body doesn't scroll away while in this mode */
-    body.fullscreen-game {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-    }
-
-    body.fullscreen-game .game-title {
-      display: none !important;
-    }
-
-    body.fullscreen-game #gameCanvas {
-      /* Use dvh (dynamic viewport height) if supported, fallback to vh */
-      max-height: calc(100vh - 20px);
-      max-height: calc(100dvh - 20px); 
-      max-width: calc(100vw - 20px);
-      height: auto;
-      width: auto;
-      box-shadow: 0 0 0 4px #3c352b;
-    }
+  body.fullscreen-game {
+    position: fixed;
+    width: 100%;
+    height: 100%;
   }
+
+  body.fullscreen-game .game-title {
+    display: none !important;
+  }
+
+  body.fullscreen-game #gameCanvas {
+    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - 20px);
+    max-width: calc(100vw - 20px);
+    height: auto;
+    width: auto;
+    box-shadow: 0 0 0 4px #3c352b;
+  }
+}
 </style>
 </head>
 <body>
@@ -662,11 +662,6 @@ min-width: 240px;
 
   <!-- Rotate hint overlay rendered inside the game area -->
   <div id="rotateCanvasOverlay" class="rotate-canvas-overlay" aria-hidden="true"></div>
-
-  <div id="controls" class="controls">
-  <div id="loading-message" class="loading">Loading game assets...</div>
-  <button id="fullscreen-btn" style="margin-top: 10px; padding: 8px 16px; cursor: pointer; border: 2px solid #1976d2; background: white; color: #1976d2; border-radius: 4px; font-weight: 700; font-size: 14px;">⛶ Fullscreen</button>
-</div>
 
   <!-- Instruction text outside the game environment -->
   <div style="text-align:center;">
@@ -846,6 +841,27 @@ if (fullscreenBtn) {
 // Keep overlay in sync when user rotates or resizes
 window.addEventListener('resize', updateRotateOverlay);
 window.addEventListener('orientationchange', updateRotateOverlay);
+
+// AUTO-EXIT SAFETY: If user rotates back to portrait, automatically exit fullscreen mode
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    if (window.innerHeight > window.innerWidth) {
+      // We are back in Portrait
+      if (document.body.classList.contains('fullscreen-game')) {
+        document.body.classList.remove('fullscreen-game');
+        
+        // Reset the button text
+        const fsBtn = document.getElementById('fullscreen-toggle');
+        if (fsBtn) {
+          fsBtn.innerHTML = 'Fullscreen<br><span style="font-size: 9px; opacity: 0.8;">(mobile)</span>';
+        }
+        
+        // Update the rotate overlay
+        updateRotateOverlay();
+      }
+    }
+  }, 200);
+});
 
 // Image variables used by the rest of the app
 let characterImage, robotBoxImage, popUpAdImage, spamtonImage, asteriskImage;
@@ -1899,87 +1915,6 @@ if (imageLoaded) {
 
 });
 </script>
-
-</script>
-
-<!-- Fullscreen toggle and mobile orientation handling -->
-<script>
-// Mobile fullscreen toggle
-const fullscreenBtn = document.getElementById('fullscreen-toggle');
-const rotateCanvasOverlay = document.getElementById('rotateCanvasOverlay');
-
-function isMobilePortrait() {
-  return window.innerWidth <= 768 && window.innerHeight > window.innerWidth;
-}
-
-function updateRotateOverlay() {
-  const inFullscreen = document.body.classList.contains('fullscreen-game');
-  if (inFullscreen && isMobilePortrait()) {
-    if (rotateCanvasOverlay) {
-      rotateCanvasOverlay.style.display = 'block';
-      rotateCanvasOverlay.innerHTML = `
-        <div style="color:#3cff7a; text-transform:uppercase; margin-bottom:6px; font-size:11px;">
-          ROTATE DEVICE
-        </div>
-        <div>
-          Rotate device to landscape<br>
-          for the best experience.
-        </div>
-      `;
-      rotateCanvasOverlay.setAttribute('aria-hidden', 'false');
-    }
-  } else {
-    if (rotateCanvasOverlay) {
-      rotateCanvasOverlay.style.display = 'none';
-      rotateCanvasOverlay.setAttribute('aria-hidden', 'true');
-    }
-  }
-}
-
-if (fullscreenBtn) {
-  fullscreenBtn.addEventListener('click', () => {
-    const isFs = document.body.classList.toggle('fullscreen-game');
-    
-    if (isFs) {
-      fullscreenBtn.innerHTML = 'Exit Fullscreen<br><span style="font-size: 9px; opacity: 0.8;">(mobile)</span>';
-    } else {
-      fullscreenBtn.innerHTML = 'Fullscreen<br><span style="font-size: 9px; opacity: 0.8;">(mobile)</span>';
-    }
-    
-    updateRotateOverlay();
-  });
-}
-
-// Keep overlay in sync when user rotates or resizes
-window.addEventListener('resize', updateRotateOverlay);
-window.addEventListener('orientationchange', updateRotateOverlay);
-
-// AUTO-EXIT SAFETY: If user rotates back to portrait, automatically exit fullscreen mode
-window.addEventListener('orientationchange', () => {
-  // Small delay to let the browser finish rotating
-  setTimeout(() => {
-    if (window.innerHeight > window.innerWidth) {
-      // We are back in Portrait
-      if (document.body.classList.contains('fullscreen-game')) {
-        document.body.classList.remove('fullscreen-game');
-        
-        // Reset the button text
-        const fsBtn = document.getElementById('fullscreen-toggle');
-        if (fsBtn) {
-          fsBtn.innerHTML = 'Fullscreen<br><span style="font-size: 9px; opacity: 0.8;">(mobile)</span>';
-        }
-        
-        // Update the rotate overlay
-        if (typeof updateRotateOverlay === 'function') {
-          updateRotateOverlay();
-        }
-      }
-    }
-  }, 200);
-});
-</script>
-
-<script src="js/script.bundle.js"></script>
 
 <script src="js/script.bundle.js"></script>
 <script src="js/index.bundle.js"></script>
