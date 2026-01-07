@@ -991,13 +991,12 @@ window.addEventListener('load', () => setTimeout(positionOverlays, 40));
 function showWelcomeScreen() {
 if (DEBUG) console.log('showWelcomeScreen called');
   try {
-    if (!controlsDiv) {
-      console.warn('showWelcomeScreen: controlsDiv is not defined');
-      return;
-    }
-
-    // Clear the "loading" text
-    controlsDiv.innerHTML = '';
+    const controlsDiv = document.getElementById('controls');
+if (!controlsDiv) {
+  console.warn('showWelcomeScreen: #controls not found (continuing anyway)');
+} else {
+  controlsDiv.innerHTML = '';
+}
 
     if (uiOverlay) {
       // Set welcome message and Start button inside uiOverlay
