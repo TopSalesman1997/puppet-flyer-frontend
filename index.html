@@ -223,10 +223,16 @@ align-self: flex-start;
 
 /* Responsive (minimal) */
 @media (max-width:680px) {
-.back-button {
+.logo-and-title {
+    width: 100%; /* Take up full width to allow alignment */
+    display: flex;
+    justify-content: flex-start; /* Push children (the button) to the left */
+  }
+
+  .back-button {
     margin-left: 5px;
     margin-top: 5px;
-align-self: flex-start; }
+  }
   .game-container { padding:18px; }
   .countdown-number { font-size: 52px; }
   .ui-overlay .game-over { font-size: 36px; }
