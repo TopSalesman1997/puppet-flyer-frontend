@@ -48,6 +48,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+align-self: flex-start;
 
   font-family: "Press Start 2P", monospace;
   font-size: 9px;
@@ -222,6 +223,9 @@
 
 /* Responsive (minimal) */
 @media (max-width:680px) {
+.back-button {
+    margin-left: 5px;
+    margin-top: 5px;
   .game-container { padding:18px; }
   .countdown-number { font-size: 52px; }
   .ui-overlay .game-over { font-size: 36px; }
