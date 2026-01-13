@@ -1143,28 +1143,6 @@ window.addEventListener('orientationchange', () => {
   }, 200);
 });
 
-// ========== RULES MODAL ==========
-const rulesButton = document.getElementById('rules-button');
-const rulesModal = document.getElementById('rules-modal');
-const closeRules = document.getElementById('close-rules');
-
-if (rulesButton && rulesModal && closeRules) {
-  rulesButton.addEventListener('click', () => {
-    rulesModal.style.display = 'flex';
-  });
-
-  closeRules.addEventListener('click', () => {
-    rulesModal.style.display = 'none';
-  });
-
-  // Close when clicking outside the panel
-  rulesModal.addEventListener('click', (e) => {
-    if (e.target === rulesModal) {
-      rulesModal.style.display = 'none';
-    }
-  });
-}
-
 // Image variables used by the rest of the app
 let characterImage, robotBoxImage, popUpAdImage, spamtonImage, asteriskImage;
 let asteriskLoaded = false;
@@ -2203,6 +2181,33 @@ function startGameWithCountdown(){
   positionOverlays();
   showNext();
 }
+
+// ========== RULES MODAL ==========
+// Use setTimeout to ensure the button exists in the DOM
+setTimeout(() => {
+  const rulesButton = document.getElementById('rules-button');
+  const rulesModal = document.getElementById('rules-modal');
+  const closeRules = document.getElementById('close-rules');
+
+  if (rulesButton && rulesModal && closeRules) {
+    rulesButton.addEventListener('click', () => {
+      rulesModal.style.display = 'flex';
+    });
+
+    closeRules.addEventListener('click', () => {
+      rulesModal.style.display = 'none';
+    });
+
+    // Close when clicking outside the panel
+    rulesModal.addEventListener('click', (e) => {
+      if (e.target === rulesModal) {
+        rulesModal.style.display = 'none';
+      }
+    });
+  } else {
+    console.warn('Rules modal elements not found:', { rulesButton, rulesModal, closeRules });
+  }
+}, 0);
 
 // Expose start functions and gameState to global scope so inline attributes and other scripts keep working
 window.startGame = startGame;
