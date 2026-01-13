@@ -18,19 +18,19 @@
 
   /* Top bar wrapper sits on blue background */
   .top-bar-wrapper{
-    max-width:1200px;
-    margin:0 auto 8px auto; /* slightly tighter gap above game area */
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-  }
+  max-width:1200px;
+  margin:0 auto 8px auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center; /* ✅ center vertically */
+}
 
-  /* Left side just for spacing */
-  .logo-and-title{
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
+ .logo-and-title{
+  display:flex;
+  flex-direction: column; /* ✅ explicit vertical stack */
+  align-items:flex-start;
+  gap:6px;
+}
 
   .logo-and-title img{
     height:48px;
@@ -85,6 +85,12 @@ align-self: flex-start;
 
 .back-button:active {
   transform: translateX(-1px);
+}
+
+/* ✅ ADD THIS: Makes button version behave like link version */
+button.back-button {
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.55); /* Ensures button has same border */
 }
 
   /* White game area (title + canvas + leaderboards) */
@@ -871,12 +877,18 @@ min-width: 240px;
   <!-- Top bar on blue background -->
   <div class="top-bar-wrapper">
     <!-- Left side now empty (banner can be shorter); kept for layout balance -->
-    <div class="logo-and-title">
+<div class="logo-and-title">
+  <!-- Back Button -->
   <a href="https://bigshot.today" class="back-button" aria-label="Back to bigshot.today">
-    <span class="back-button-arrow">←</span>
-    <span class="back-button-bottom">bigshot.today</span>
+    <span class="back-button-top">BACK TO</span>
+    <span class="back-button-bottom">BIGSHOT.TODAY</span>
   </a>
-  <button id="rules-button" class="pixel-btn rules-btn">Rules</button>
+
+  <!-- Rules Button (Styled exactly like the back button) -->
+  <button id="rules-button" class="back-button">
+    <span class="back-button-top">VIEW</span>
+    <span class="back-button-bottom">TOURNAMENT RULES</span>
+  </button>
 </div>
 
     <div id="auth-panel">
