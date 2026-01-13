@@ -861,6 +861,11 @@ min-width: 240px;
   .rules-section h3 { font-size: 11px; }
   .bigshot-cta { font-size: 11px; }
 }
+
+/* ========== UTILITY CLASSES ========== */
+.hidden {
+  display: none !important;
+}
 </style>
 </head>
 <body>
@@ -2205,7 +2210,7 @@ if (imageLoaded) {
 </script>
 
 <!-- Rules Modal -->
-<div id="rules-modal" class="overlay-modal hidden">
+<div id="rules-modal" class="modal-overlay" style="display: none;">
   <div class="overlay-panel rules-panel">
     <button id="close-rules" class="overlay-close">✕</button>
     <h2 class="rules-title">🎮 PUPPET FLYER TOURNAMENT 🎮</h2>
