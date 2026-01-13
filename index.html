@@ -17,12 +17,13 @@
   }
 
   /* Top bar wrapper sits on blue background */
-  .top-bar-wrapper{
-  max-width:1200px;
-  margin:0 auto 8px auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center; /* ✅ center vertically */
+.top-bar-wrapper {
+  max-width: 1200px;
+  margin: 0 auto 8px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: auto; /*
 }
 
  .logo-and-title{
@@ -2183,31 +2184,34 @@ function startGameWithCountdown(){
 }
 
 // ========== RULES MODAL ==========
-// Use setTimeout to ensure the button exists in the DOM
-setTimeout(() => {
-  const rulesButton = document.getElementById('rules-button');
-  const rulesModal = document.getElementById('rules-modal');
-  const closeRules = document.getElementById('close-rules');
+const rulesButton = document.getElementById('rules-button');
+const rulesModal = document.getElementById('rules-modal');
+const closeRules = document.getElementById('close-rules');
 
-  if (rulesButton && rulesModal && closeRules) {
-    rulesButton.addEventListener('click', () => {
-      rulesModal.style.display = 'flex';
-    });
+if (rulesButton && rulesModal && closeRules) {
+  rulesButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log("Rules Button Clicked!"); // Check your console for this!
+    rulesModal.style.setProperty('display', 'flex', 'important');
+  });
 
-    closeRules.addEventListener('click', () => {
+  closeRules.addEventListener('click', () => {
+    rulesModal.style.display = 'none';
+  });
+
+  rulesModal.addEventListener('click', (e) => {
+    if (e.target === rulesModal) {
       rulesModal.style.display = 'none';
-    });
-
-    // Close when clicking outside the panel
-    rulesModal.addEventListener('click', (e) => {
-      if (e.target === rulesModal) {
-        rulesModal.style.display = 'none';
-      }
-    });
-  } else {
-    console.warn('Rules modal elements not found:', { rulesButton, rulesModal, closeRules });
-  }
-}, 0);
+    }
+  });
+} else {
+  // This will tell us if the script can't find the elements
+  console.error("Rules elements missing:", { 
+    button: !!rulesButton, 
+    modal: !!rulesModal, 
+    close: !!closeRules 
+  });
+}
 
 // Expose start functions and gameState to global scope so inline attributes and other scripts keep working
 window.startGame = startGame;
