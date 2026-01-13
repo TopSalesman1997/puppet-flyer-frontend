@@ -669,6 +669,7 @@ min-width: 240px;
     width: auto;
     box-shadow: 0 0 0 4px #3c352b;
   }
+}
 
 /* ========== RULES MODAL (Rotate-device style) ========== */
 
@@ -697,7 +698,7 @@ min-width: 240px;
   inset: 0; /* replaces top/left/width/height */
   background: rgba(0, 0, 0, 0.85);
   z-index: 100000;           /* above game/canvas/top bar */
-  display: none;             /* IMPORTANT: modal is hidden by default */
+  display: flex;             
   align-items: center;
   justify-content: center;
   padding: 16px;
@@ -2210,9 +2211,9 @@ if (imageLoaded) {
 </script>
 
 <!-- Rules Modal -->
-<div id="rules-modal" class="modal-overlay" style="display: none;">
-  <div class="overlay-panel rules-panel">
-    <button id="close-rules" class="overlay-close">✕</button>
+<div id="rules-modal" class="modal-overlay hidden">
+  <div class="modal-panel rules-panel">
+    <button id="close-rules" class="modal-close">✕</button>
     <h2 class="rules-title">🎮 PUPPET FLYER TOURNAMENT 🎮</h2>
     
     <div class="rules-content">
