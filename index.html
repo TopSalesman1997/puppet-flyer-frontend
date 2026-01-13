@@ -26,10 +26,11 @@
 }
 
  .logo-and-title{
-  display:flex;
-  flex-direction: column; /* ✅ explicit vertical stack */
-  align-items:flex-start;
-  gap:6px;
+  display: flex;
+  flex-direction: row; 
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
   .logo-and-title img{
@@ -885,7 +886,7 @@ min-width: 240px;
   </a>
 
   <!-- Rules Button (Styled exactly like the back button) -->
-  <button id="rules-button" class="back-button">
+  <button id="rules-button" class="back-button" type="button">
     <span class="back-button-top">VIEW</span>
     <span class="back-button-bottom">TOURNAMENT RULES</span>
   </button>
