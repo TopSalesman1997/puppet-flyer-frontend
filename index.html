@@ -656,6 +656,213 @@ min-width: 240px;
     width: auto;
     box-shadow: 0 0 0 4px #3c352b;
   }
+
+/* ========== RULES MODAL ========== */
+.rules-btn {
+  margin-left: 10px;
+  font-size: 14px;
+  padding: 8px 16px;
+  background: #4CAF50;
+  color: white;
+  border: 3px solid #2d5f2e;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 #1a3a1b;
+  transition: all 0.1s;
+}
+
+.rules-btn:hover {
+  background: #5bc75f;
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 #1a3a1b;
+}
+
+.rules-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #1a3a1b;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-panel {
+  background: #4CAF50;
+  border: 6px solid #2d5f2e;
+  box-shadow: 0 0 0 3px #fff, 0 0 30px rgba(0,0,0,0.5);
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+  position: relative;
+  padding: 30px;
+  overflow-y: auto;
+  font-family: 'Press Start 2P', monospace;
+  color: white;
+  text-shadow: 2px 2px 0 #1a3a1b;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff4444;
+  color: white;
+  border: 3px solid #aa0000;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  box-shadow: 3px 3px 0 #660000;
+  transition: all 0.1s;
+}
+
+.modal-close:hover {
+  background: #ff6666;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #660000;
+}
+
+.modal-close:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #660000;
+}
+
+.rules-title {
+  font-size: 18px;
+  text-align: center;
+  margin: 0 0 25px 0;
+  line-height: 1.6;
+  color: #ffeb3b;
+  text-shadow: 3px 3px 0 #1a3a1b;
+}
+
+.rules-content {
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.rules-section {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 3px solid #2d5f2e;
+}
+
+.rules-section h3 {
+  font-size: 14px;
+  margin: 0 0 15px 0;
+  color: #ffeb3b;
+  text-shadow: 2px 2px 0 #1a3a1b;
+}
+
+.rules-section ol,
+.rules-section ul {
+  margin: 10px 0;
+  padding-left: 25px;
+}
+
+.rules-section li {
+  margin-bottom: 12px;
+}
+
+.rules-note {
+  display: block;
+  font-size: 9px;
+  color: #d4f4dd;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.prize-list {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+}
+
+.prize-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #2d5f2e;
+  margin-bottom: 8px;
+}
+
+.prize-rank {
+  color: #ffeb3b;
+  font-weight: bold;
+}
+
+.prize-amount {
+  color: #76ff03;
+  font-weight: bold;
+}
+
+.bigshot-callout {
+  font-size: 10px;
+  color: #76ff03;
+  margin: 15px 0;
+}
+
+.bigshot-cta {
+  font-size: 13px;
+  text-align: center;
+  color: #ffeb3b;
+  margin-top: 20px;
+  animation: pulse 1.5s infinite;
+}
+
+.highlight {
+  color: #ff4444;
+  text-shadow: 2px 2px 0 #1a3a1b, 0 0 10px #ff4444;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Mobile adjustments */
+@media (max-width: 680px) {
+  .rules-btn {
+    font-size: 11px;
+    padding: 6px 10px;
+    margin-left: 8px;
+  }
+
+  .modal-panel {
+    padding: 20px 15px;
+    max-height: 90vh;
+  }
+
+  .rules-title {
+    font-size: 14px;
+  }
+
+  .rules-content {
+    font-size: 9px;
+  }
+
+  .rules-section h3 {
+    font-size: 11px;
+  }
+
+  .bigshot-cta {
+    font-size: 11px;
+  }
 }
 </style>
 </head>
@@ -666,9 +873,10 @@ min-width: 240px;
     <!-- Left side now empty (banner can be shorter); kept for layout balance -->
     <div class="logo-and-title">
   <a href="https://bigshot.today" class="back-button" aria-label="Back to bigshot.today">
-    <span class="back-button-top">Back to</span>
+    <span class="back-button-arrow">←</span>
     <span class="back-button-bottom">bigshot.today</span>
   </a>
+  <button id="rules-button" class="pixel-btn rules-btn">Rules</button>
 </div>
 
     <div id="auth-panel">
@@ -921,6 +1129,28 @@ window.addEventListener('orientationchange', () => {
     }
   }, 200);
 });
+
+// ========== RULES MODAL ==========
+const rulesButton = document.getElementById('rules-button');
+const rulesModal = document.getElementById('rules-modal');
+const closeRules = document.getElementById('close-rules');
+
+if (rulesButton && rulesModal && closeRules) {
+  rulesButton.addEventListener('click', () => {
+    rulesModal.style.display = 'flex';
+  });
+
+  closeRules.addEventListener('click', () => {
+    rulesModal.style.display = 'none';
+  });
+
+  // Close when clicking outside the panel
+  rulesModal.addEventListener('click', (e) => {
+    if (e.target === rulesModal) {
+      rulesModal.style.display = 'none';
+    }
+  });
+}
 
 // Image variables used by the rest of the app
 let characterImage, robotBoxImage, popUpAdImage, spamtonImage, asteriskImage;
@@ -1973,6 +2203,59 @@ if (imageLoaded) {
 
 });
 </script>
+
+<!-- Rules Modal -->
+<div id="rules-modal" class="modal-overlay" style="display:none;">
+  <div class="modal-panel rules-panel">
+    <button id="close-rules" class="modal-close">✕</button>
+    <h2 class="rules-title">🎮 PUPPET FLYER TOURNAMENT 🎮</h2>
+    
+    <div class="rules-content">
+      <section class="rules-section">
+        <h3>📋 ELIGIBILITY</h3>
+        <ol>
+          <li><strong>Create an account & verify your email address</strong> to participate<br>
+          <span class="rules-note">Only verified logged-in user scores are saved and eligible for prize winnings</span></li>
+          <li><strong>Sign-in and play as many rounds as you want</strong><br>
+          <span class="rules-note">Your scores will be automatically logged in the database, and the top ten scores will be displayed on our leaderboards, updated in real-time</span></li>
+        </ol>
+      </section>
+
+      <section class="rules-section prize-section">
+        <h3>💰 WEEKLY PRIZEPOOL - $100</h3>
+        <p>Every week, <strong>$100 in prizes</strong> is paid out across the top 3 scores on the weekly leaderboard:</p>
+        <ul class="prize-list">
+          <li><span class="prize-rank">1st:</span> <span class="prize-amount">$60</span></li>
+          <li><span class="prize-rank">2nd:</span> <span class="prize-amount">$25</span></li>
+          <li><span class="prize-rank">3rd:</span> <span class="prize-amount">$15</span></li>
+        </ul>
+        <p class="rules-note">*Scores will be timestamped every Sunday @ 11:59pm EST<br>
+        Any score recorded after that time will be considered for the following week's payout</p>
+      </section>
+
+      <section class="rules-section prize-section">
+        <h3>🏆 MONTHLY PRIZEPOOL - $400</h3>
+        <p>Every month, an additional <strong>$400 in prizes</strong> will be paid across the top 5 scores on the monthly leaderboard:</p>
+        <ul class="prize-list">
+          <li><span class="prize-rank">1st:</span> <span class="prize-amount">$169</span></li>
+          <li><span class="prize-rank">2nd:</span> <span class="prize-amount">$99</span></li>
+          <li><span class="prize-rank">3rd:</span> <span class="prize-amount">$69</span></li>
+          <li><span class="prize-rank">4th:</span> <span class="prize-amount">$42</span></li>
+          <li><span class="prize-rank">5th:</span> <span class="prize-amount">$21</span></li>
+        </ul>
+        <p class="rules-note">*Scores will be timestamped on the final day of the month @ 11:59pm EST</p>
+      </section>
+
+      <section class="rules-section payout-section">
+        <h3>💸 PAYOUTS</h3>
+        <p>All prizes will be paid in <strong>$Spamton tokens</strong> equal to the USD value of each respective prize level</p>
+        <p>Winners will be contacted via their registered email address to arrange prize distribution</p>
+        <p class="bigshot-callout"><strong>$800 in prizes given away EVERY MONTH to the community…so practice up!</strong></p>
+        <p class="bigshot-cta">DON'T YOU WANNA BE A <span class="highlight">BIG SHOT</span>?!</p>
+      </section>
+    </div>
+  </div>
+</div>
 
 <script src="js/script.bundle.js"></script>
 <script src="js/index.bundle.js"></script>
