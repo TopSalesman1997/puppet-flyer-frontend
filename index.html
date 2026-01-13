@@ -669,6 +669,7 @@ min-width: 240px;
     width: auto;
     box-shadow: 0 0 0 4px #3c352b;
   }
+}
 
 /* ========== RULES MODAL (Rotate-device style) ========== */
 
@@ -697,7 +698,7 @@ min-width: 240px;
   inset: 0; /* replaces top/left/width/height */
   background: rgba(0, 0, 0, 0.85);
   z-index: 100000;           /* above game/canvas/top bar */
-  display: none;             /* IMPORTANT: modal is hidden by default */
+  display: flex;             
   align-items: center;
   justify-content: center;
   padding: 16px;
@@ -1053,6 +1054,59 @@ min-width: 240px;
     };
   })();
 </script>
+
+<!-- Rules Modal -->
+<div id="rules-modal" class="modal-overlay hidden">
+  <div class="modal-panel rules-panel">
+    <button id="close-rules" class="modal-close">✕</button>
+    <h2 class="rules-title">🎮 PUPPET FLYER TOURNAMENT 🎮</h2>
+    
+    <div class="rules-content">
+      <section class="rules-section">
+        <h3>📋 ELIGIBILITY</h3>
+        <ol>
+          <li><strong>Create an account & verify your email address</strong> to participate<br>
+          <span class="rules-note">Only verified logged-in user scores are saved and eligible for prize winnings</span></li>
+          <li><strong>Sign-in and play as many rounds as you want</strong><br>
+          <span class="rules-note">Your scores will be automatically logged in the database, and the top ten scores will be displayed on our leaderboards, updated in real-time</span></li>
+        </ol>
+      </section>
+
+      <section class="rules-section prize-section">
+        <h3>💰 WEEKLY PRIZEPOOL - $100</h3>
+        <p>Every week, <strong>$100 in prizes</strong> is paid out across the top 3 scores on the weekly leaderboard:</p>
+        <ul class="prize-list">
+          <li><span class="prize-rank">1st:</span> <span class="prize-amount">$60</span></li>
+          <li><span class="prize-rank">2nd:</span> <span class="prize-amount">$25</span></li>
+          <li><span class="prize-rank">3rd:</span> <span class="prize-amount">$15</span></li>
+        </ul>
+        <p class="rules-note">*Scores will be timestamped every Sunday @ 11:59pm EST<br>
+        Any score recorded after that time will be considered for the following week's payout</p>
+      </section>
+
+      <section class="rules-section prize-section">
+        <h3>🏆 MONTHLY PRIZEPOOL - $400</h3>
+        <p>Every month, an additional <strong>$400 in prizes</strong> will be paid across the top 5 scores on the monthly leaderboard:</p>
+        <ul class="prize-list">
+          <li><span class="prize-rank">1st:</span> <span class="prize-amount">$169</span></li>
+          <li><span class="prize-rank">2nd:</span> <span class="prize-amount">$99</span></li>
+          <li><span class="prize-rank">3rd:</span> <span class="prize-amount">$69</span></li>
+          <li><span class="prize-rank">4th:</span> <span class="prize-amount">$42</span></li>
+          <li><span class="prize-rank">5th:</span> <span class="prize-amount">$21</span></li>
+        </ul>
+        <p class="rules-note">*Scores will be timestamped on the final day of the month @ 11:59pm EST</p>
+      </section>
+
+      <section class="rules-section payout-section">
+        <h3>💸 PAYOUTS</h3>
+        <p style="margin-bottom: 1.5em;">All prizes will be paid in <strong>$Spamton tokens</strong> equal to the USD value of each respective prize level</p>
+        <p>Winners will be contacted via their registered email address to arrange prize distribution</p>
+        <p class="bigshot-callout"><strong>$800 in prizes given away EVERY MONTH to the community…so practice up!</strong></p>
+        <p class="bigshot-cta">DON'T YOU WANNA BE A <span class="highlight">BIG SHOT</span>?!</p>
+      </section>
+    </div>
+  </div>
+</div>
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
@@ -2208,59 +2262,6 @@ if (imageLoaded) {
 
 });
 </script>
-
-<!-- Rules Modal -->
-<div id="rules-modal" class="modal-overlay" style="display: none;">
-  <div class="overlay-panel rules-panel">
-    <button id="close-rules" class="overlay-close">✕</button>
-    <h2 class="rules-title">🎮 PUPPET FLYER TOURNAMENT 🎮</h2>
-    
-    <div class="rules-content">
-      <section class="rules-section">
-        <h3>📋 ELIGIBILITY</h3>
-        <ol>
-          <li><strong>Create an account & verify your email address</strong> to participate<br>
-          <span class="rules-note">Only verified logged-in user scores are saved and eligible for prize winnings</span></li>
-          <li><strong>Sign-in and play as many rounds as you want</strong><br>
-          <span class="rules-note">Your scores will be automatically logged in the database, and the top ten scores will be displayed on our leaderboards, updated in real-time</span></li>
-        </ol>
-      </section>
-
-      <section class="rules-section prize-section">
-        <h3>💰 WEEKLY PRIZEPOOL - $100</h3>
-        <p>Every week, <strong>$100 in prizes</strong> is paid out across the top 3 scores on the weekly leaderboard:</p>
-        <ul class="prize-list">
-          <li><span class="prize-rank">1st:</span> <span class="prize-amount">$60</span></li>
-          <li><span class="prize-rank">2nd:</span> <span class="prize-amount">$25</span></li>
-          <li><span class="prize-rank">3rd:</span> <span class="prize-amount">$15</span></li>
-        </ul>
-        <p class="rules-note">*Scores will be timestamped every Sunday @ 11:59pm EST<br>
-        Any score recorded after that time will be considered for the following week's payout</p>
-      </section>
-
-      <section class="rules-section prize-section">
-        <h3>🏆 MONTHLY PRIZEPOOL - $400</h3>
-        <p>Every month, an additional <strong>$400 in prizes</strong> will be paid across the top 5 scores on the monthly leaderboard:</p>
-        <ul class="prize-list">
-          <li><span class="prize-rank">1st:</span> <span class="prize-amount">$169</span></li>
-          <li><span class="prize-rank">2nd:</span> <span class="prize-amount">$99</span></li>
-          <li><span class="prize-rank">3rd:</span> <span class="prize-amount">$69</span></li>
-          <li><span class="prize-rank">4th:</span> <span class="prize-amount">$42</span></li>
-          <li><span class="prize-rank">5th:</span> <span class="prize-amount">$21</span></li>
-        </ul>
-        <p class="rules-note">*Scores will be timestamped on the final day of the month @ 11:59pm EST</p>
-      </section>
-
-      <section class="rules-section payout-section">
-        <h3>💸 PAYOUTS</h3>
-        <p>All prizes will be paid in <strong>$Spamton tokens</strong> equal to the USD value of each respective prize level</p>
-        <p>Winners will be contacted via their registered email address to arrange prize distribution</p>
-        <p class="bigshot-callout"><strong>$800 in prizes given away EVERY MONTH to the community…so practice up!</strong></p>
-        <p class="bigshot-cta">DON'T YOU WANNA BE A <span class="highlight">BIG SHOT</span>?!</p>
-      </section>
-    </div>
-  </div>
-</div>
 
 <script src="js/script.bundle.js"></script>
 <script src="js/index.bundle.js"></script>
