@@ -569,21 +569,33 @@ button.back-button {
     min-height: 18px;
   }
 
-/* Fullscreen toggle button positioned over the game area */
+/* Fullscreen toggle button - Merged & Fixed */
 #fullscreen-toggle {
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 50;
-  padding: 6px 10px;    /* slightly more padding for two lines */
+  
+  /* Critical Fixes */
+  z-index: 10000 !important; /* Must be higher than .top-bar-wrapper (200) */
+  pointer-events: auto !important;
+  
+  padding: 6px 10px;
   font-size: 11px;
-  line-height: 1.2;     /* tighter line spacing for the break */
+  line-height: 1.2;
   border-radius: 4px;
   border: none;
   background: rgba(0,0,0,0.6);
   color: #fff;
   cursor: pointer;
   text-align: center;
+}
+
+/* Landscape-specific tweak for the button */
+@media (max-width: 900px) and (orientation: landscape) {
+  body.fullscreen-game #fullscreen-toggle {
+    right: 20px; /* Move it slightly in from the edge for notched phones */
+    top: 15px;
+  }
 }
 
 /* Rotate hint overlay inside the game canvas area */
@@ -649,12 +661,45 @@ min-width: 240px;
     align-items: center;
     justify-content: center;
     background: #000;
+    
+    /* ✅ ADD THIS: Pushes the game right to make room for the side buttons */
+    padding-left: 100px; 
   }
 
   body.fullscreen-game {
     position: fixed;
     width: 100%;
     height: 100%;
+  }
+
+  /* ✅ NEW BLOCK: Moves the Back/Rules buttons to a left-side rail */
+  body.fullscreen-game .top-bar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px; /* Width of your side rail */
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px 5px;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.7); /* Darker background for contrast */
+    z-index: 200; /* Above the game container */
+    pointer-events: auto;
+  }
+
+  body.fullscreen-game .logo-and-title {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  body.fullscreen-game .back-button {
+    font-size: 7px; /* Smaller text to fit vertically */
+    padding: 6px 4px;
+    width: 90px;
+    white-space: normal; /* Allows text to wrap if needed */
   }
 
   body.fullscreen-game .game-title {
@@ -664,11 +709,17 @@ min-width: 240px;
   body.fullscreen-game #gameCanvas {
     max-height: calc(100vh - 20px);
     max-height: calc(100dvh - 20px);
-    max-width: calc(100vw - 20px);
+    max-width: calc(100vw - 110px); /* Adjusted to account for the side rail */
     height: auto;
     width: auto;
     box-shadow: 0 0 0 4px #3c352b;
   }
+}
+
+/* ✅ ADD THIS: Fixes the Exit Fullscreen button click issue */
+#fullscreen-toggle {
+  pointer-events: auto !important;
+  z-index: 1000 !important;
 }
 
 /* ========== RULES MODAL (Rotate-device style) ========== */
